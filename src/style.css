@@ -21,8 +21,18 @@ button:hover {
   background-color: white;
   color: black;
 }
-.user-card {
-  color: white;
-  border: 1px solid grey;
-  padding: 0.5rem;
+.hide {
+  display: none;
+}
+#usersContainer {
+  max-height: 50vh;
+  max-width: 50vw;
+  overflow-y: auto;
+  border: 1px dashed white;
+  margin-top: 1rem;
+}
+#usersContainer > * {
+  border: 1px solid white;
+  margin: 0.25rem;
+  padding: 0.25rem;
 }

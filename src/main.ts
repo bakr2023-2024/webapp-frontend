@@ -4,14 +4,18 @@ const usersContainer: HTMLElement | null =
 const createUserForm: HTMLFormElement | null = document.getElementById(
   "createUserForm"
 ) as HTMLFormElement;
-
+const fetchUsersBtn: HTMLElement | null =
+  document.getElementById("fetchUsersBtn");
+const resultMsg: HTMLElement | null = document.getElementById("result-msg");
 async function fetchUsers() {
   const res = await fetch("https://webapp-backend-1.onrender.com/users", {
     mode: "cors",
   });
   return await res.json();
 }
-
+const displayResult = (operation: string, result: any) => {
+  if (resultMsg) resultMsg.textContent = operation + ": " + result;
+};
 async function renderUsers() {
   const users: any[] = await fetchUsers();
   if (usersContainer) {
@@ -52,11 +56,13 @@ async function createUser(event: Event) {
     body: JSON.stringify(Object.fromEntries(formData)),
     mode: "cors",
   });
-  if (res.ok) {
+  const result = await res.json();
+  if (result) {
     renderUsers();
+    displayResult("Create", JSON.stringify(result));
     createUserForm.reset(); // Reset form fields
   } else {
-    console.error("Failed to create user");
+    displayResult("Error", "Failed to create user");
   }
 }
 
@@ -68,10 +74,12 @@ async function deleteUser(userId: number) {
       mode: "cors",
     }
   );
-  if (res.ok) {
+  const result = await res.json();
+  if (result) {
     renderUsers();
+    displayResult("Delete", JSON.stringify(result));
   } else {
-    console.error("Failed to delete user");
+    displayResult("Error", "Failed to delete user");
   }
 }
 
@@ -93,18 +101,22 @@ async function updateUser(userId: number, name: string, job: string) {
         mode: "cors",
       }
     );
-    if (res.ok) {
+    const result = await res.json();
+    if (result) {
       renderUsers();
+      displayResult("Update", JSON.stringify(result));
     } else {
-      console.error("Failed to update user");
+      displayResult("Error", "Failed to update user");
     }
   }
 }
 
-if (createUserForm) {
+if (createUserForm && fetchUsersBtn) {
   createUserForm.addEventListener("submit", createUser);
+  fetchUsersBtn.addEventListener("click", () => {
+    usersContainer?.classList.toggle("hide");
+  });
 }
-
-(() => {
-  renderUsers();
+(async function () {
+  await renderUsers();
 })();
