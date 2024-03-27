@@ -1,0 +1,28 @@
+/* style.css */
+body {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: white;
+}
+h1 {
+  text-align: center;
+}
+button {
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+  cursor: pointer;
+  transition: all 0.5s linear;
+}
+button:hover {
+  background-color: white;
+  color: black;
+}
+.user-card {
+  color: white;
+  border: 1px solid grey;
+  padding: 0.5rem;
+}
